@@ -1,4 +1,4 @@
-#' pull_hosp_data 
+#' pull_hosp_data
 #'
 #' @description Return ECDC Hospital data as data.table
 #'
@@ -7,8 +7,7 @@
 #' @importFrom data.table fread
 #' @importFrom shinybusy show_modal_spinner remove_modal_spinner
 #' @noRd
-pull_hosp_data <- function(session, url="https://opendata.ecdc.europa.eu/covid19/hospitalicuadmissionrates/csv/data.csv") {
-  
+pull_hosp_data <- function(session, url = "https://opendata.ecdc.europa.eu/covid19/hospitalicuadmissionrates/csv/data.csv") {
   show_modal_spinner(session = session, text = "Pulling data, please wait.")
   on.exit(remove_modal_spinner())
   out <- fread(url)
