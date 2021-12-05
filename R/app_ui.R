@@ -15,7 +15,10 @@ app_ui <- function(request) {
      skin = "midnight",
      options = list(sidebarExpandOnHover = TRUE),
      header = dashboardHeader(),
-     sidebar = dashboardSidebar(minified = TRUE, collapsed = TRUE),
+     sidebar = dashboardSidebar(
+       minified = TRUE, collapsed = FALSE,
+       mod_country_selector_ui("country_selector_ui_1")
+     ),
      body = dashboardBody(
        box(
          title = "Daily Metrics",
@@ -26,7 +29,7 @@ app_ui <- function(request) {
         ),
         column(
           width = 2,
-          
+          mod_hosp_stats_ui("hosp_stats_ui_1")
         )
        )
      ),
