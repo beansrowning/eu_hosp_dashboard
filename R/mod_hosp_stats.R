@@ -10,22 +10,29 @@
 mod_hosp_stats_ui <- function(id){
   ns <- NS(id)
   tagList(
- 
+    dataTableOutput(ns("stats_table"))
   )
 }
     
 #' hosp_stats Server Functions
 #'
 #' @noRd 
-mod_hosp_stats_server <- function(id){
+mod_hosp_stats_server <- function(id, the_data, metrics){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
  
+    output$stats_table <- renderDataTable({
+      shiny::validate(
+        shiny::need(metrics(), "Waiting for indicators"),
+        shiny::need(the_data(), "Waiting for data")
+      )
+
+      table_data_raw <- the_data()
+      table_metrics <- metrics()
+
+      table_data <- hosp_indicator_diff(table_data_raw, table_metrics)
+
+      datatable(table_data)
+    })
   })
 }
-    
-## To be copied in the UI
-# mod_hosp_stats_ui("hosp_stats_ui_1")
-    
-## To be copied in the server
-# mod_hosp_stats_server("hosp_stats_ui_1")

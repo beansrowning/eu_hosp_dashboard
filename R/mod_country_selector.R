@@ -13,6 +13,7 @@ mod_country_selector_ui <- function(id){
     selectInput(
       ns("country_choice"),
       label = "Choose Country",
+      choices = character(),
       multiple = TRUE
     )
   )
@@ -20,9 +21,17 @@ mod_country_selector_ui <- function(id){
     
 #' country_selector Server Functions
 #'
+#' Server-side handling of country select input.
+#' On init: Populates selector with list of countries from data.
+#' Reactively filters hospital data by countries selected and returns
+#' data for plotting / downstream handling
+#' 
+#' @param id,input,output,session Internal parameters for {shiny}.
+#' @param the_data a reactive containing ECDC data
+#' 
 #' @noRd 
-mod_country_selector_server <- function(id){
-  moduleServer( id, function(input, output, session){
+mod_country_selector_server <- function(id, the_data){
+  moduleServer( id, function(input, output, session) {
     # Update choices once data resolves
     observe({
       dt <- need(validate(the_data()), "Waiting for data")
@@ -46,10 +55,5 @@ mod_country_selector_server <- function(id){
   })
 
   return(country_selected_data)
+})
 }
-
-## To be copied in the UI
-# mod_country_selector_ui("country_selector_ui_1")
-    
-## To be copied in the server
-# mod_country_selector_server("country_selector_ui_1")

@@ -18,15 +18,33 @@ mod_hosp_plot_ui <- function(id){
 #' hosp_plot Server Functions
 #' Returns plot of hospitalization data
 #' 
-#' @param data Hospitalization data from ECDC
+#' @param id,input,output,session Internal parameters for {shiny}.
+#' @param the_data subset hospitalization data from selector
+#' @param metrics a character vector of metrics to visualize
+#' 
 #' @noRd 
-mod_hosp_plot_server <- function(id, data){
+mod_hosp_plot_server <- function(id, the_data, metrics){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
  
-    ns$plot <- renderPlotly({
-      # TODO: Write plot
-      plot_ly
+    output$plot <- renderPlotly({
+      shiny::validate(
+        shiny::need(metrics(), "Waiting for indicators"),
+        shiny::need(the_data(), "Waiting for data")
+      )
+
+      plot_data <- the_data()[indicators %in% metrics()]
+
+      # TODO: We could use NSE to construct plot in a more advanced way
+      metrics_quo <- lapply(metrics(), as.name)
+
+      plot_ly(plot_data, x=~date, y=~value, color=~country, linetype=~indicator) %>%
+        add_lines() %>%
+        layout(
+          # TODO: We could also pass layout as a reactive val
+          title = sprintf("hospital_test_plot %s", id),
+          xaxis = list(title = "Admission Date"),
+          yaxis = list(title = "Inpatients (n)"))
     })
 
   })
