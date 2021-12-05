@@ -28,12 +28,12 @@ mod_hosp_plot_server <- function(id, the_data, metrics){
     ns <- session$ns
  
     output$plot <- renderPlotly({
-      shiny::validate(
-        shiny::need(metrics(), "Waiting for indicators"),
-        shiny::need(the_data(), "Waiting for data")
-      )
+      # shiny::validate(
+      #   shiny::need(metrics(), "Waiting for indicators"),
+      #   shiny::need(the_data(), "Waiting for data")
+      # )
 
-      plot_data <- the_data()[indicators %in% metrics()]
+      plot_data <- the_data()[indicator %in% metrics()]
 
       # TODO: We could use NSE to construct plot in a more advanced way
       metrics_quo <- lapply(metrics(), as.name)

@@ -12,30 +12,33 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic 
     dashboardPage(
-     skin = "midnight",
+     skin = "blue",
      options = list(sidebarExpandOnHover = TRUE),
      header = dashboardHeader(),
      sidebar = dashboardSidebar(
        minified = TRUE, collapsed = FALSE,
-       mod_country_selector_ui("country_selector_ui_1")
+       h3(
+         textOutput("data_as_of")
+       ),
+       mod_country_selector_ui("country_selector_ui_1"),
+       br(),
+       br(),
+       "Source:",
+       "<a href='https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19'>https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19</a>"
      ),
      body = dashboardBody(
        box(
          title = "Daily Metrics",
          fluidRow(
-        column(
-          width = 8,
           mod_hosp_plot_ui("hosp_plot_ui_1")
         ),
-        column(
-          width = 2,
+        fluidRow(
           mod_hosp_stats_ui("hosp_stats_ui_1")
         )
        )
      ),
      title = "DashboardPage"
    )
-  )
   )
 }
 

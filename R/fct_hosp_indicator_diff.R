@@ -5,12 +5,16 @@
 #' @return The return value, if any, from executing the function.
 #'
 #' @import assertthat
+#' @import data.table
 #' @noRd
 hosp_indicator_diff <- function(data, metrics) {
 
   assert_that(is.data.table(data), msg = "Data is a data.table")
   assert_that(is.character(metrics), msg = "Metrics is a character vector")
 
+  if (dim(data)[1] == 0) {
+    return(data.table())
+  }
   # Computed column names
   count_cols <- paste("count", metrics, sep="_")
   diff_cols <- paste("diff", metrics, sep="_")

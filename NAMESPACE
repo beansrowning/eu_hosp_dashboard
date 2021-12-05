@@ -2,9 +2,13 @@
 
 export(run_app)
 import(assertthat)
+import(data.table)
 import(plotly)
 import(shiny)
 import(shinydashboardPlus)
+importFrom(DT,dataTableOutput)
+importFrom(DT,datatable)
+importFrom(DT,renderDataTable)
 importFrom(data.table,fread)
 importFrom(golem,activate_js)
 importFrom(golem,add_resource_path)

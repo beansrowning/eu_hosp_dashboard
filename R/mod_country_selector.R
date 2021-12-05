@@ -34,24 +34,27 @@ mod_country_selector_server <- function(id, the_data){
   moduleServer( id, function(input, output, session) {
     # Update choices once data resolves
     observe({
-      dt <- need(validate(the_data()), "Waiting for data")
+      # dt <- need(validate(the_data()), "Waiting for data")
       # Pull list of countries from data
-      countries <- dt[, unique(country)]
+      countries <- the_data()[, unique(country)]
+
+      # warning(sprintf("Countries: %s", paste(countries, collapse = ",")), immediate. = TRUE)
       # Update select input with countries
       updateSelectInput(
+        session,
         "country_choice",
         choices = countries,
-        selected = countries
+        selected = countries[1]
       )
     })
 
     country_selected_data <- reactive({
-    shiny::validate(
-      shiny::need(input$country_choice,"Select countries"),
-      shiny::need(the_data(), "Waiting for data")
-    )
+    # shiny::validate(
+    #   shiny::need(input$country_choice,"Select countries", "boop") #,
+    #   # shiny::need(the_data(), "Waiting for data")
+    # )
 
-    dt[countries %in% input$country_choice]
+    the_data()[country %in% input$country_choice]
   })
 
   return(country_selected_data)
