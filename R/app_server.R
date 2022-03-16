@@ -28,10 +28,10 @@ app_server <- function(input, output, session) {
   country_data <- mod_country_selector_server("country_selector_ui_1", hosp_data)
 
   # Update / handle Hospitalization stats and plots
-  mod_hosp_plot_server("hosp_plot_ui_1", country_data, daily_indicators)
+  mod_hosp_plot_server("hosp_plot_ui_1", country_data, daily_indicators, format = list(title = "Daily Hospitalization Indicators"))
   mod_hosp_stats_server("hosp_stats_ui_1", country_data, daily_indicators)
 
   # Update / handle Hospitalization stats and plots
-  mod_hosp_plot_server("hosp_plot_ui_2", country_data, weekly_indicators)
-  mod_hosp_stats_server("hosp_stats_ui_2", country_data, weekly_indicators)
+  # mod_hosp_plot_server("hosp_plot_ui_2", country_data, weekly_indicators)
+  # mod_hosp_stats_server("hosp_stats_ui_2", country_data, weekly_indicators)
 }

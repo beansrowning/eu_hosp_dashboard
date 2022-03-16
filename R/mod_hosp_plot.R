@@ -23,7 +23,7 @@ mod_hosp_plot_ui <- function(id) {
 #' @param metrics a character vector of metrics to visualize
 #'
 #' @noRd
-mod_hosp_plot_server <- function(id, the_data, metrics) {
+mod_hosp_plot_server <- function(id, the_data, metrics, format=NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -38,11 +38,13 @@ mod_hosp_plot_server <- function(id, the_data, metrics) {
       # TODO: We could use NSE to construct plot in a more advanced way
       metrics_quo <- lapply(metrics(), as.name)
 
+      plot_title <- format[["title"]] %||% sprintf("Hospital Test plot %s", id)
+
       plot_ly(plot_data, x = ~date, y = ~value, color = ~country, linetype = ~indicator) %>%
         add_lines() %>%
         layout(
           # TODO: We could also pass layout as a reactive val
-          title = sprintf("hospital_test_plot %s", id),
+          title = plot_title,
           xaxis = list(title = "Admission Date"),
           yaxis = list(title = "Inpatients (n)")
         )

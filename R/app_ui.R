@@ -26,42 +26,21 @@ app_ui <- function(request) {
       )
         )
       ),
-      sidebar = dashboardSidebar(
-        minified = FALSE, collapsed = TRUE,
-        h3(
-          textOutput("data_as_of")
-        ),
-        br(),
-        br(),
-        p(
+      body = dashboardBody(
+          fluidRow(
+            box(
+              title = "Daily Metrics",
+                mod_hosp_plot_ui("hosp_plot_ui_1"),
+                hr(),
+                mod_hosp_stats_ui("hosp_stats_ui_1"),
+              width = 12
+            )
+          ),
+          p(
           strong("Source:"),
           tags$a("https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19", href = "https://www.ecdc.europa.eu/en/publications-data/download-data-hospital-and-icu-admission-rates-and-current-occupancy-covid-19")
         )
-      ),
-      body = dashboardBody(
-        fluidRow(
-          box(
-            title = "Daily Metrics",
-            fluidRow(
-              mod_hosp_plot_ui("hosp_plot_ui_1")
-            ),
-            fluidRow(
-              mod_hosp_stats_ui("hosp_stats_ui_1")
-            )
-          )
-        ),
-        fluidRow(
-          box(
-            title = "Weekly Metrics",
-            fluidRow(
-              mod_hosp_plot_ui("hosp_plot_ui_2")
-            ),
-            fluidRow(
-              mod_hosp_stats_ui("hosp_stats_ui_2")
-            )
-          )
         )
-      )
     )
   )
 }
