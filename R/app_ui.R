@@ -26,6 +26,7 @@ app_ui <- function(request) {
       )
         )
       ),
+      sidebar = dashboardSidebar(),
       body = dashboardBody(
           fluidRow(
             box(
